@@ -4,7 +4,7 @@ import click
 
 
 #wrote magic to automate some things that clck doesnt do, i didnt want to have to specify each argument to click for each method when it can be done automatically using decorators
-def magic(fn_name):
+def register_fn(module,fn_name):
     fn = module.__dict__[fn_name]
     argspec = inspect.getfullargspec(fn)
     arguments = argspec.args
@@ -21,19 +21,17 @@ def magic(fn_name):
 
 
 def post_call(result):
-    print(json.dumps(result, default=lambda x: x.to_dict()))
     pass
 
 def filter_function_name(name):
     return True
 
-def main(module):
+def instantcli(module):
     for line in open(module.__file__):
         if line.startswith("def "):
             fn_name = line.split("def ")[1].split("(")[0]
             if filter_function_name(fn_name):
-                continue
-                magic(fn_name)
+                register_fn(module,fn_name)
     cli()
 
 @click.group()
