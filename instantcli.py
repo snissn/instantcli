@@ -26,12 +26,15 @@ def post_call(result):
 def filter_function_name(name):
     return True
 
-def instantcli(module):
+def load_module(module):
     for line in open(module.__file__):
         if line.startswith("def "):
             fn_name = line.split("def ")[1].split("(")[0]
             if filter_function_name(fn_name):
                 register_fn(module,fn_name)
+
+def instantcli(module):
+    load_module(module)
     cli()
 
 @click.group()
