@@ -43,5 +43,5 @@ def cli():
 
 @cli.result_callback()
 def process_result(result):
-    post_call()
+    post_call(result)
     return result
